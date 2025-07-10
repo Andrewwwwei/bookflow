@@ -76,8 +76,3 @@ BookFlow 是一套前後端分離的現代化借書系統，後端採用 Spring 
 - 所有 API 已防範 SQL Injection。
 - 用戶輸入（如 userName）已防範 XSS 攻擊。
 - 請勿在前端使用 `v-html` 直接渲染用戶資料。
-
----
-
-## 聯絡/貢獻
-- 有任何問題或建議，歡迎聯絡開發者或提交 Issue。 
