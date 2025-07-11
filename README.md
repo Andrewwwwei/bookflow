@@ -22,7 +22,7 @@ BookFlow 是一套前後端分離的現代化借書系統，後端採用 Spring 
   ./gradlew build
   ./gradlew bootRun
   ```
-- 預設 API 端點：`http://localhost:8080/api/`
+- 預設 API 端點：`http://localhost:8080/`
 
 ### 3. 啟動前端（Vue.js）
 - 進入 `bookflow/frontend/` 目錄
@@ -30,9 +30,6 @@ BookFlow 是一套前後端分離的現代化借書系統，後端採用 Spring 
   ```sh
   npm install
   npm run dev
-  ```
-- 前端預設網址：`http://localhost:5173/`
-
 ---
 
 ## 使用說明
@@ -75,4 +72,3 @@ BookFlow 是一套前後端分離的現代化借書系統，後端採用 Spring 
 ## 安全注意事項
 - 所有 API 已防範 SQL Injection。
 - 用戶輸入（如 userName）已防範 XSS 攻擊。
-- 請勿在前端使用 `v-html` 直接渲染用戶資料。
