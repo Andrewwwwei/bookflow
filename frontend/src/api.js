@@ -29,6 +29,7 @@ instance.interceptors.response.use(
 
 export const register = (data) => instance.post(`${API_BASE}/auth/register`, data);
 export const login = (data) => instance.post(`${API_BASE}/auth/login`, data);
+export const resetPassword = (data) => instance.post(`${API_BASE}/auth/reset-password`, data);
 export const getBooks = () => instance.get(`${API_BASE}/book/list`);
 export const borrowBook = (isbn) => instance.post(`${API_BASE}/borrow/isbn/${isbn}`);
 export const returnBook = (inventoryId) => instance.post(`${API_BASE}/return/${inventoryId}`);
