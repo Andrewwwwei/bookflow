@@ -13,7 +13,7 @@ public class User {
     @Column(name = "phone_number", unique = true, nullable = false, length = 20)
     private String phoneNumber;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 255)
     private String password;
 
     @Column(name = "user_name", nullable = false, length = 50)

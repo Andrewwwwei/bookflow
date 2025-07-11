@@ -45,4 +45,25 @@ public class UserService {
         userRepository.save(user);
         return user;
     }
+
+    // 透過 Stored Procedure 重置密碼
+    public boolean resetPassword(String phoneNumber, String newPassword) {
+        // 對新密碼進行加密
+        String hashedPassword = passwordEncoder.encode(newPassword);
+        
+        // 呼叫 PostgreSQL 函數
+        Integer result = userRepository.resetUserPassword(phoneNumber, hashedPassword);
+        
+        // 根據返回值判斷結果
+        switch (result) {
+            case 1:
+                return true; // 密碼重置成功
+            case 0:
+                throw new RuntimeException("用戶不存在");
+            case -1:
+                throw new RuntimeException("密碼重置過程中發生錯誤");
+            default:
+                throw new RuntimeException("未知錯誤");
+        }
+    }
 } 

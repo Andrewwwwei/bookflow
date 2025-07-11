@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -61,5 +62,43 @@ public class AuthController {
         resp.put("token", token);
         resp.put("userId", user.getId());
         return resp;
+    }
+
+    // 透過 Stored Procedure 重置密碼
+    @PostMapping("/reset-password")
+    public Map<String, Object> resetPassword(@RequestBody Map<String, String> req) {
+        String phoneNumber = req.get("phoneNumber");
+        String newPassword = req.get("newPassword");
+
+        log.debug("Password reset attempt: phoneNumber={}", phoneNumber);
+
+        try {
+            // 先檢查用戶是否存在
+            Optional<User> existingUser = userService.findByPhoneNumber(phoneNumber);
+            if (existingUser.isPresent()) {
+                log.debug("User found, current password hash: {}", existingUser.get().getPassword());
+            } else {
+                log.debug("User not found for phone number: {}", phoneNumber);
+            }
+
+            boolean success = userService.resetPassword(phoneNumber, newPassword);
+            
+            // 再次檢查用戶資料
+            Optional<User> updatedUser = userService.findByPhoneNumber(phoneNumber);
+            if (updatedUser.isPresent()) {
+                log.debug("After reset, password hash: {}", updatedUser.get().getPassword());
+            }
+
+            Map<String, Object> resp = new HashMap<>();
+            resp.put("success", success);
+            resp.put("message", "密碼重置成功");
+            return resp;
+        } catch (RuntimeException e) {
+            log.error("Password reset failed: {}", e.getMessage());
+            Map<String, Object> resp = new HashMap<>();
+            resp.put("success", false);
+            resp.put("message", e.getMessage());
+            return resp;
+        }
     }
 }
